@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">MusicApp</string>
+
+    <string-array name="backgroungMusic">
+
+        <item>GoTechGo!</item>
+        <item>Mario!</item>
+        <item>Tetris!</item>
+
+    </string-array>
+
+    <string-array name="overlapMusic">
+
+        <item>Clapping</item>
+        <item>Cheering</item>
+        <item>Go Hokies!</item>
+
+    </string-array>
+
+</resources>
