@@ -55,7 +55,6 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
     public void playNPause(View v) {
 
-
         // Overlapping music
         // 1
 

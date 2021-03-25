@@ -154,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         max2 = savedInstanceState.getInt("max2");
         max3 = savedInstanceState.getInt("max3");
 
-
         int a = max1;
         int b = max2;
         int c = max3;
