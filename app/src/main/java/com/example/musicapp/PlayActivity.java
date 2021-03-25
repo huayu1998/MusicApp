@@ -157,6 +157,16 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
             spin3player = null;
             playOrPause.setText("Play");
             Toast.makeText(this, "Music released!", Toast.LENGTH_SHORT).show();
+
+            if ("GoTechGo!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.gohokies);
+            }
+            else if ("Mario!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.mario);
+            }
+            else if ("Tetris!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.tetris);
+            }
         }
 
     }
@@ -173,6 +183,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
         @Override
         public void run() {
             spin1player.start();
+            if ("Clapping".equals(mainIntent.getStringExtra("spin1"))) {
+                pic.setImageResource(R.drawable.clapping);
+            } else if ("Cheering".equals(mainIntent.getStringExtra("spin1"))) {
+                pic.setImageResource(R.drawable.cheering);
+            } else if ("Go Hokies!".equals(mainIntent.getStringExtra("spin1"))) {
+                pic.setImageResource(R.drawable.letgohokies);
+            }
         }
     };
 
@@ -180,6 +197,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
         @Override
         public void run() {
             spin2player.start();
+            if ("Clapping".equals(mainIntent.getStringExtra("spin2"))) {
+                pic.setImageResource(R.drawable.clapping);
+            } else if ("Cheering".equals(mainIntent.getStringExtra("spin2"))) {
+                pic.setImageResource(R.drawable.cheering);
+            } else if ("Go Hokies!".equals(mainIntent.getStringExtra("spin2"))) {
+                pic.setImageResource(R.drawable.letgohokies);
+            }
         }
     };
 
@@ -187,6 +211,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
         @Override
         public void run() {
             spin3player.start();
+            if ("Clapping".equals(mainIntent.getStringExtra("spin3"))) {
+                pic.setImageResource(R.drawable.clapping);
+            } else if ("Cheering".equals(mainIntent.getStringExtra("spin3"))) {
+                pic.setImageResource(R.drawable.cheering);
+            } else if ("Go Hokies!".equals(mainIntent.getStringExtra("spin3"))) {
+                pic.setImageResource(R.drawable.letgohokies);
+            }
         }
     };
 
