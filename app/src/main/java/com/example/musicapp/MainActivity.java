@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +31,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     SeekBar seek2;
     SeekBar seek3;
 
-    int pro1 = 0;
-    int pro2 = 0;
-    int pro3 = 0;
+    int pro1;
+    int pro2;
+    int pro3;
+
+    int max1;
+    int max2;
+    int max3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         savedInstanceState.putInt("integer1", pro1);
         savedInstanceState.putInt("integer2", pro2);
         savedInstanceState.putInt("integer3", pro3);
+        savedInstanceState.putInt("max1", max1);
+        savedInstanceState.putInt("max2", max2);
+        savedInstanceState.putInt("max3", max3);
     }
 
     @Override
@@ -142,10 +150,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         pro1 = savedInstanceState.getInt("integer1");
         pro2 = savedInstanceState.getInt("integer2");
         pro3 = savedInstanceState.getInt("integer3");
+        max1 = savedInstanceState.getInt("max1");
+        max2 = savedInstanceState.getInt("max2");
+        max3 = savedInstanceState.getInt("max3");
 
-        seek1.setProgress(pro1);
-        seek2.setProgress(pro2);
-        seek3.setProgress(pro3);
+        int a = max1;
+        int b = max2;
+        int c = max3;
+        int d = pro1;
+        int e = pro2;
+        int f = pro3;
+
+        seek1.setMax(a);
+        seek1.setProgress(d);
+        seek2.setMax(b);
+        seek2.setProgress(e);
+        seek3.setMax(c);
+        seek3.setProgress(f);
     }
 
     public void playMusic(View view) {
@@ -167,17 +188,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         intent.putExtra("progress2", pro2);
         intent.putExtra("progress3", pro3);
 
-        // Also send the data to MusicPlayer class
-        Intent intentToMusicPlayer = new Intent(this, MusicPlayer.class);
-        intentToMusicPlayer.putExtra("backgroundtext", str1);
-        intentToMusicPlayer.putExtra("spin1", str2);
-        intentToMusicPlayer.putExtra("spin2", str3);
-        intentToMusicPlayer.putExtra("spin3", str4);
-        intentToMusicPlayer.putExtra("progress1", pro1);
-        intentToMusicPlayer.putExtra("progress2", pro2);
-        intentToMusicPlayer.putExtra("progress3", pro3);
-        // --------------------------------------------------
-
         startActivity(intent);
 
     }
@@ -188,32 +198,41 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         if ("Clapping".equals(overlappedSpin1.getSelectedItem().toString())) {
             seek1.setMax(new MediaPlayer().create(this, R.raw.clapping).getDuration());
+            max1 = new MediaPlayer().create(this, R.raw.clapping).getDuration();
         }
         else if ("Cheering".equals(overlappedSpin1.getSelectedItem().toString())) {
             seek1.setMax(new MediaPlayer().create(this, R.raw.cheering).getDuration());
+            max1 = new MediaPlayer().create(this, R.raw.cheering).getDuration();
         }
         else if ("Go Hokies!".equals(overlappedSpin1.getSelectedItem().toString())) {
             seek1.setMax(new MediaPlayer().create(this, R.raw.lestgohokies).getDuration());
+            max1 = new MediaPlayer().create(this, R.raw.lestgohokies).getDuration();
         }
 
         if ("Clapping".equals(overlappedSpin2.getSelectedItem().toString())) {
             seek2.setMax(new MediaPlayer().create(this, R.raw.clapping).getDuration());
+            max2 = new MediaPlayer().create(this, R.raw.clapping).getDuration();
         }
         else if ("Cheering".equals(overlappedSpin2.getSelectedItem().toString())) {
             seek2.setMax(new MediaPlayer().create(this, R.raw.cheering).getDuration());
+            max2 = new MediaPlayer().create(this, R.raw.cheering).getDuration();
         }
         else if ("Go Hokies!".equals(overlappedSpin2.getSelectedItem().toString())) {
             seek2.setMax(new MediaPlayer().create(this, R.raw.lestgohokies).getDuration());
+            max2 = new MediaPlayer().create(this, R.raw.lestgohokies).getDuration();
         }
 
         if ("Clapping".equals(overlappedSpin3.getSelectedItem().toString())) {
             seek3.setMax(new MediaPlayer().create(this, R.raw.clapping).getDuration());
+            max3 = new MediaPlayer().create(this, R.raw.clapping).getDuration();
         }
         else if ("Cheering".equals(overlappedSpin3.getSelectedItem().toString())) {
             seek3.setMax(new MediaPlayer().create(this, R.raw.cheering).getDuration());
+            max3 = new MediaPlayer().create(this, R.raw.cheering).getDuration();
         }
         else if ("Go Hokies!".equals(overlappedSpin3.getSelectedItem().toString())) {
             seek3.setMax(new MediaPlayer().create(this, R.raw.lestgohokies).getDuration());
+            max3 = new MediaPlayer().create(this, R.raw.lestgohokies).getDuration();
         }
 
 
