@@ -5,35 +5,25 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 
+import androidx.annotation.Nullable;
+
 public class MusicService extends Service {
 
     MusicPlayer musicPlayer;
-    private final IBinder iBinder = new MyBinder();
+    private final IBinder iBinder= new MyBinder();
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        //throw new UnsupportedOperationException("Not yet implemented");
-
-        return iBinder;
-    }
-
-    public class MyBinder extends Binder {
-
-        MusicService getService() {
-            return MusicService.this;
-        }
-    }
+    public static final String COMPLETE_INTENT = "complete intent";
+    public static final String MUSICNAME = "music name";
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //musicPlayer = new MusicPlayer(this);
+        musicPlayer = new MusicPlayer(this);
     }
 
-    public void startMusic(String name, int pos){
+    public void startMusic(){
 
-        musicPlayer.playMusic(name, pos);
+        musicPlayer.playMusic();
     }
 
     public void pauseMusic(){
@@ -51,4 +41,25 @@ public class MusicService extends Service {
         return musicPlayer.getMusicStatus();
     }
 
+
+    public void onUpdateMusicName(String musicname) {
+        Intent intent = new Intent(COMPLETE_INTENT);
+        intent.putExtra(MUSICNAME, musicname);
+        sendBroadcast(intent);
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+
+        return iBinder;
+    }
+
+
+    public class MyBinder extends Binder {
+
+        MusicService getService(){
+            return MusicService.this;
+        }
+    }
 }

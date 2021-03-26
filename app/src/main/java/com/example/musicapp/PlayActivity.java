@@ -112,18 +112,19 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 musicplayer = MediaPlayer.create(this, R.raw.tetris);
             }
             musicplayer.start();
+            myHandler.postDelayed(myRunnable4, 8000);
             playOrPause.setText("Pause");
             musicplayer.setOnCompletionListener(this);
 
         } else if (musicplayer != null && musicplayer.isPlaying()) {
             musicplayer.pause();
-            if (spin1player != null) {
+            if (spin1player != null && spin1player.isPlaying()) {
                 spin1player.pause();
             }
-            if (spin2player != null) {
+            if (spin2player != null && spin2player.isPlaying()) {
                 spin2player.pause();
             }
-            if (spin3player != null) {
+            if (spin3player != null && spin3player.isPlaying()) {
                 spin3player.pause();
             }
 
@@ -217,6 +218,21 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 pic.setImageResource(R.drawable.cheering);
             } else if ("Go Hokies!".equals(mainIntent.getStringExtra("spin3"))) {
                 pic.setImageResource(R.drawable.letgohokies);
+            }
+        }
+    };
+
+    private Runnable myRunnable4 = new Runnable() {
+        @Override
+        public void run() {
+            if ("GoTechGo!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.gohokies);
+            }
+            else if ("Mario!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.mario);
+            }
+            else if ("Tetris!".equals(backgroundMusicText.getText())) {
+                pic.setImageResource(R.drawable.tetris);
             }
         }
     };

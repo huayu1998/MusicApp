@@ -169,6 +169,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         seek3.setProgress(f);
     }
 
+    public String getBackgroundName() {return backgroundSpinner.getSelectedItem().toString(); }
+    public String getSpinName1() {
+        return overlappedSpin1.getSelectedItem().toString();
+    }
+    public String getSpinName2() {
+        return overlappedSpin2.getSelectedItem().toString();
+    }
+    public String getSpinName3() {
+        return overlappedSpin3.getSelectedItem().toString();
+    }
+    public int getPro1() {
+        return pro1;
+    }
+    public int getPro2() {
+        return pro2;
+    }
+    public int getPro3() {
+        return pro3;
+    }
+
     public void playMusic(View view) {
 
         Intent intent = new Intent(this, PlayActivity.class);

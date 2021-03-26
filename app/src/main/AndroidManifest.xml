@@ -9,11 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MusicApp">
+        <receiver
+            android:name=".MusicCompletionReceiver"
+            android:enabled="true"
+            android:exported="false"></receiver>
+
         <service
             android:name=".MusicService"
             android:enabled="true"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
 
         <activity android:name=".PlayActivity" />
         <activity android:name=".MainActivity">
