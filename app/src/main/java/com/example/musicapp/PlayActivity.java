@@ -1,5 +1,6 @@
 package com.example.musicapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -21,12 +22,21 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
     Button playOrPause;
     ImageView pic;
 
+    //MusicCompletionReceiver musicCompletionReceiver;
+    //Intent startMusicServiceIntent;
+    //boolean isBound = false;
+    //boolean isInitialized = false;
+
     private Handler myHandler = new Handler();
 
     MediaPlayer spin1player;
     MediaPlayer spin2player;
     MediaPlayer spin3player;
 
+    int proMain;
+    int proSpin1;
+    int proSpin2;
+    int proSpin3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +61,41 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
 
         playOrPause = (Button) findViewById(R.id.playpause);
 
+        /*
+        playOrPause = (Button) findViewById(R.id.playpause);
+
+        startMusicServiceIntent= new Intent(PlayActivity.this, MusicService.class);
+
+        if(!isInitialized){
+            startService(startMusicServiceIntent);
+            isInitialized = true;
+        }
+
+        musicCompletionReceiver = new MusicCompletionReceiver(this);
+         */
+
     }
 
     public void playNPause(View v) {
+
+        /*
+        if (isBound) {
+            switch (musicService.getPlayingStatus()){
+                case 0:
+                    musicService.startMusic();
+                    playOrPause.setText("Pause");
+                    break;
+                case 1:
+                    musicService.pauseMusic();
+                    playOrPause.setText("Resume");
+                    break;
+                case 2:
+                    musicService.resumeMusic();
+                    playOrPause.setText("Pause");
+                    break;
+            }
+        }
+         */
 
         // Overlapping music
         // 1
@@ -66,8 +108,12 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
             } else if ("Go Hokies!".equals(mainIntent.getStringExtra("spin1"))) {
                 spin1player = MediaPlayer.create(this, R.raw.lestgohokies);
             }
-            spin1player.seekTo(mainIntent.getIntExtra("progress1", 0));
-            myHandler.postDelayed(myRunnable1, mainIntent.getIntExtra("progress1", 0));
+
+            if (mainIntent.getIntExtra("progress1", 0) != spin1player.getDuration()) {
+                spin1player.seekTo(mainIntent.getIntExtra("progress1", 0));
+                myHandler.postDelayed(myRunnable1, mainIntent.getIntExtra("progress1", 0));
+            }
+
         }
 
 
@@ -82,8 +128,11 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 spin2player = MediaPlayer.create(this, R.raw.lestgohokies);
             }
 
-            spin2player.seekTo(mainIntent.getIntExtra("progress2", 0));
-            myHandler.postDelayed(myRunnable2, mainIntent.getIntExtra("progress2", 0));
+            if (mainIntent.getIntExtra("progress2", 0) != spin2player.getDuration()) {
+                spin2player.seekTo(mainIntent.getIntExtra("progress2", 0));
+                myHandler.postDelayed(myRunnable2, mainIntent.getIntExtra("progress2", 0));
+            }
+
         }
 
         // 3
@@ -97,8 +146,10 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
                 spin3player = MediaPlayer.create(this, R.raw.lestgohokies);
             }
 
-            spin3player.seekTo(mainIntent.getIntExtra("progress3", 0));
-            myHandler.postDelayed(myRunnable3, mainIntent.getIntExtra("progress3", 0));
+            if (mainIntent.getIntExtra("progress3", 0) != spin3player.getDuration()) {
+                spin3player.seekTo(mainIntent.getIntExtra("progress3", 0));
+                myHandler.postDelayed(myRunnable3, mainIntent.getIntExtra("progress3", 0));
+            }
         }
 
         // main music
@@ -147,15 +198,13 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
     }
 
     public void reStart(View v) {
+
+        // musicService.restartMusic();
+
         if (musicplayer!= null) {
             musicplayer.release();
-            spin1player.release();
-            spin2player.release();
-            spin3player.release();
             musicplayer = null;
-            spin1player = null;
-            spin2player = null;
-            spin3player = null;
+
             playOrPause.setText("Play");
             Toast.makeText(this, "Music released!", Toast.LENGTH_SHORT).show();
 
@@ -168,6 +217,21 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
             else if ("Tetris!".equals(backgroundMusicText.getText())) {
                 pic.setImageResource(R.drawable.tetris);
             }
+        }
+
+        if (spin1player != null) {
+            spin1player.release();
+            spin1player = null;
+        }
+
+        if (spin2player != null) {
+            spin2player.release();
+            spin2player = null;
+        }
+
+        if (spin3player != null) {
+            spin3player.release();
+            spin3player = null;
         }
 
     }
@@ -234,7 +298,63 @@ public class PlayActivity extends AppCompatActivity implements MediaPlayer.OnCom
             else if ("Tetris!".equals(backgroundMusicText.getText())) {
                 pic.setImageResource(R.drawable.tetris);
             }
+
+            spin1player = null;
+            spin2player = null;
+            spin3player = null;
         }
     };
+
+    /*
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(isInitialized && !isBound){
+            bindService(startMusicServiceIntent, musicServiceConnection, Context.BIND_AUTO_CREATE);
+        }
+
+        registerReceiver(musicCompletionReceiver, new IntentFilter(MusicService.COMPLETE_INTENT));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(isBound){
+            unbindService(musicServiceConnection);
+            isBound= false;
+        }
+
+        unregisterReceiver(musicCompletionReceiver);
+    }
+
+    private ServiceConnection musicServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            MusicService.MyBinder binder = (MusicService.MyBinder) iBinder;
+            musicService = binder.getService();
+            isBound = true;
+
+            switch (musicService.getPlayingStatus()) {
+                case 0:
+                    playOrPause.setText("Start");
+                    break;
+                case 1:
+                    playOrPause.setText("Pause");
+                    break;
+                case 2:
+                    playOrPause.setText("Resume");
+                    break;
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            musicService = null;
+            isBound = false;
+        }
+    };
+     */
 
 }
